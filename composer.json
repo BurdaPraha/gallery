@@ -2,11 +2,14 @@
   "name": "burdapraha/gallery",
   "type": "drupal-module",
   "description": "Custom gallery",
+  "minimum-stability": "dev",
   "keywords": ["Drupal"],
   "license": "GPL-2.0+",
   "homepage": "https://github.com/BurdaPraha/gallery",
-  "minimum-stability": "dev",
-  "support": {
-    "issues": "https://github.com/BurdaPraha/gallery/issues"
-  }
+  "authors": [
+    {
+      "name": "Michal Landsman",
+      "email": "landsman@studioart.cz"
+    }
+  ]
 }
