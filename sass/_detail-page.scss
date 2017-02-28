@@ -1,0 +1,274 @@
+//
+// Gallery detail page
+//
+.item-media-gallery {
+
+  &__header {
+    position: relative;
+
+    &__counter {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      color: #000000;
+      font-family: $gallery_counter_font-family;
+      font-size: 26px;
+      font-weight: 400;
+      line-height: 48px;
+    }
+
+    &__thumbs {
+      width: 100%;
+      position: relative;
+      z-index: 5;
+      margin-top: -42px;
+      float: right;
+      text-align: right;
+
+      label {
+        padding: 5px 10px 3px 10px;
+        color: #7e7e7e;
+        font-family: $gallery_brand_font-family;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 20px;
+        text-transform: uppercase;
+        cursor: pointer;
+        border: 1px solid transparent;
+
+        &:hover {
+          border-color: #dddddd; // @todo: to var
+          color: #000;
+        }
+      }
+
+      .thumbs_list {
+        display: none;
+        position: absolute;
+      }
+
+      &.active {
+        min-height: 250px;
+        background: #fff;
+
+        .thumbs_list {
+          display: block;
+          position: absolute;
+          top: 48px;
+          left: 0;
+          z-index: 100;
+          text-align: left;
+        }
+      }
+
+    }
+
+  }
+
+  .owl-gallery {
+    width: 540px;
+    margin: 0 auto;
+    position: relative;
+
+    // if thumbs are active
+    &.go-hidden {
+      z-index: -100;
+    }
+
+    .owl-stage-outer {
+    }
+
+    .owl-nav {
+
+      .owl-prev, .owl-next {
+        position: absolute;
+        top: 150px;
+        margin: 0;
+      }
+
+      //
+      // Arrow left
+      //
+      .owl-prev {
+        left: -45px;
+
+        .wrap {
+
+          &__way  {
+            margin-right: -37px;
+          }
+
+          &__gallery {
+            a {
+              padding-left: 50px;
+            }
+          }
+
+        }
+
+      }
+
+      //
+      // Arrow right
+      //
+      .owl-next {
+        right: -45px;
+
+        .wrap {
+
+          &__way {
+            margin-left: -37px;
+          }
+
+          &__gallery {
+            a {
+              padding-right: 50px;
+            }
+          }
+
+        }
+      }
+
+      //
+      // Template from Javascript "gallery-custom.js"
+      //
+      .wrap {
+        height: 88px;
+        background: #fff;
+
+        &> div {
+          position: relative;
+          display: inline-block;
+          vertical-align: top;
+        }
+
+        // hover improved change color over <a>
+        &:hover {
+
+          .wrap__way {
+            border-color: $gallery_brand_font-color;
+            color: $gallery_brand_font-color;
+          }
+
+        }
+
+        &__way {
+          z-index: 1;
+          width: 37px;
+          height: auto;
+          padding: 23px 0;
+          font-size: 40px; // font-awesome
+          color: #bcbcbc; // @todo: make variable
+          border: 1px solid #dddddd;
+          text-align: center;
+        }
+
+        &__gallery {
+          width: 0;
+          overflow: hidden;
+          z-index: 5;
+          //box-shadow: 0 0 2px rgba(0, 0, 0, 0.3); @todo: bad looking
+
+          a {
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            display: block;
+            color: #000000;
+
+            &> span {
+              display: inline-block;
+            }
+
+          }
+
+          &__img {
+            padding-right: 15px;
+            max-height: 65px;
+            overflow: hidden
+          }
+
+          &__txt {
+            padding-right: 15px;
+            text-align: left;
+            vertical-align: top;
+
+            &> * {
+              display: block;
+            }
+
+            .txt-label {
+              color: #000000;
+              font-family: $gallery_brand_font-family;
+              font-size: 14px;
+              font-weight: 700;
+              line-height: 23px;
+              text-transform: uppercase;
+            }
+
+            .txt-headline {
+              color: #3f3f3f;
+              font-family: $gallery_brand_font-family;
+              font-size: 14px;
+              font-weight: 400;
+              line-height: 16px;
+            }
+
+          }
+
+        }
+
+      }
+
+      &> div {
+        padding: 0;
+      }
+
+      .disabled {
+        opacity: 1;
+      }
+
+      // mouse hover over disabled arrow
+      .owl-prev, .owl-next {
+
+        &:hover {
+          .wrap__gallery {
+            width: auto !important;
+          }
+        }
+
+      }
+    }
+
+  }
+
+  &__footer {
+
+  }
+
+  .item-media-image {
+
+    .img-container {
+
+      &> * {
+
+        height: auto;
+
+      }
+
+    }
+
+  }
+
+  .text-description {
+    min-height: 0;
+  }
+
+}
+
+//
+// Lazy loading, Blazy, ...
+//
+.media--loading::before {
+  background: $gallery_brand_font-color;
+}

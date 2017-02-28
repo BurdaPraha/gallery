@@ -1,0 +1,21 @@
+{#
+/**
+ * @file
+ * Default theme implementation to present a media entity.
+ *
+ * Available variables:
+ * - name: Name of the media.
+ * - content: Media content.
+ *
+ * @see template_preprocess_media()
+ *
+ * @ingroup themeable
+ */
+#}
+{% if content %}
+    <div class="item-media-gallery__item" data-hash="imageId-{{ content.field_image.0['#item'].getValue['target_id'] }}">
+        <div class="item-media item-media-image {{ calculated_dimension }}">
+            {% include '@infinite/media/media--image-base.html.twig' %}
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,10 @@
+gallery:
+  version: 1.x
+  css:
+    theme:
+      dist/css/gallery.css: {}
+  js:
+    js/gallery/gallery.js: {}
+
+  dependecines:
+    - core/jquery

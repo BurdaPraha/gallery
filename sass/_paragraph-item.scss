@@ -1,0 +1,92 @@
+//
+//  Gallery embed
+//
+.item-media-gallery {
+
+  &__title {
+
+    h2 {
+      color: #000000;
+      font-family: $gallery_h2_font-family;
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 23px;
+    }
+  }
+
+  &__list {
+
+    padding: 15px 0;
+    border-top: 1px solid #dedede;    // @todo: color as variable!
+    border-bottom: 1px solid #dedede; // @todo: color as variable!
+
+    picture {
+      display: block;
+      padding: 1px;
+
+      * {
+        max-width: 100%;
+      }
+
+      &:hover {
+        * {
+          opacity: 0.9;
+        }
+      }
+    }
+
+  }
+
+  &__more {
+    padding: 15px 0 15px 0;
+    text-align: center;
+
+    &__gallery {
+      display: block;
+      padding: 15px 0 5px 0;
+
+      svg {
+        width: 32px;
+        height: 25px;
+
+        .st0 {
+          stroke: #c5c5c5;
+        }
+        .st1 {
+          stroke: #c5c5c5;
+        }
+
+      }
+    }
+
+    &__go-to {
+      color: #000000;
+      font-family: $gallery_goTo_font-family;
+      font-size: $gallery_goTo_fonts-size;
+      font-weight: 700;
+      line-height: 17px;
+      text-transform: uppercase;
+    }
+
+    &__num-of {
+      display: block;
+      color: #9f9f9f;
+      font-family: $gallery_numOf_font-family;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 13px;
+    }
+
+    &__go-right {
+      padding-top: 35px;
+      color: $gallery_goTo_font-color;
+      font-size: 48px;
+    }
+
+  }
+
+  .copyright {
+    display: none;
+  }
+
+}

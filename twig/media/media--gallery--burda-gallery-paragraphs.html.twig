@@ -1,0 +1,61 @@
+{#
+/**
+ * @file
+ * Default theme implementation to present a media entity.
+ *
+ * Available variables:
+ * - name: Name of the media.
+ * - content: Media content.
+ *
+ * @see template_preprocess_media()
+ *
+ * @ingroup themeable
+ */
+#}
+{% set gallery_url = path('entity.media.canonical', { 'media': media_id, 'bnid': get_main_node() }) %}
+{% set gallery_num = 0 %}
+{% set gallery_limit = 3 %}
+
+{% if content %}
+    <div class="item-media-gallery gallery-container" data-view-type="galleryBurdaView" data-media-id="{{ media_id }}">
+
+        <div class="item-media-gallery__title">
+            <h2><a href="{{ gallery_url }}">{{ name }}</a></h2>
+        </div>
+
+        <div class="row no-gutters is-flex item-media-gallery__list">
+            {% for key, item in content.field_media_images if key|first != '#' %}
+
+                {% set gallery_num = gallery_num + 1 %}
+                {% if gallery_num <= gallery_limit %}
+                    <div class="col-sm-6 col-md-3">
+                        <a href="{{ gallery_url }}#imageId-{{ item['#cache']['tags'][0] | slice(6) }}">
+                            {{ item }}
+                        </a>
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+
+            <div class="col-sm-6 col-md-3">
+                <div class="item-media-gallery__more">
+                    <a href="{{ gallery_url }}">
+                        <span class="row no-gutters is-flex">
+                            <span class="col-md-10">
+                                <span class="item-media-gallery__more__gallery">
+                                    {{ svg("/icons/gallery.svg") }}
+                                </span>
+                                <strong class="item-media-gallery__more__go-to">{% trans %}Přejít do galerie{% endtrans %}</strong>
+                                <span class="item-media-gallery__more__num-of">({{ gallery_num }} {% trans %}fotografií{% endtrans %})</span>
+                            </span>
+                            <span class="col-md-2">
+                                <span class="item-media-gallery__more__go-right"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                            </span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endif %}

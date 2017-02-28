@@ -1,3 +1,10 @@
+# phpStorm
+.idea
+
+# nodejs
+node_modules
+bower_components
+
 # Ignore configuration files that may contain sensitive information.
 sites/*/*settings*.php
 

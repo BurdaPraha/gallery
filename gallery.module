@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @param $variables
+ */
+function gallery_preprocess_page(&$variables)
+{
+    /**
+     * backlink from gallery to the article
+     */
+    $query = \Drupal::request()->query;
+    $from = $query->get('bnid');
+
+    // default
+    $variables['preprocess_article_backlink'] = \Drupal::url('<front>');
+
+    if($from)
+    {
+        $url = \Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => $from]);
+        if($url)
+        {
+            $variables['preprocess_article_backlink'] = $url->toString();
+        }
+    }
+    else
+    {
+        // todo: find paragraph relationship for first article
+    }
+}
+
+/**
+ * Paragraphs - Gallery item
+ * @param $variables
+ */
+function gallery_preprocess_paragraph(&$variables)
+{
+    $paragraph = $variables['paragraph'];
+    $bundle = $paragraph->bundle();
+
+    if ($bundle == 'gallery')
+    {
+    }
+}

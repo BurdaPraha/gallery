@@ -1,0 +1,61 @@
+{#
+/**
+ * @file
+ * Default theme implementation to present a media entity.
+ *
+ * Available variables:
+ * - name: Name of the media.
+ * - content: Media content.
+ *
+ * @see template_preprocess_media()
+ *
+ * @ingroup themeable
+ */
+#}
+{% if content %}
+    {% set prev_gallery = load_gallery_prev(media_id) %}
+    {% set next_gallery = load_gallery_next(media_id) %}
+    {% set this_gallery = load_gallery_thumbs(media_id, 'gallery_photo_preview') %}
+
+    <script>
+        dataLayer.push({
+            'pageCategory': 'Gallery'
+        });
+        var galleryLayer = {
+            'left': {
+                'id':       '{{ prev_gallery.id }}',
+                'title':    '{{ prev_gallery.title }}',
+                'path':     '{{ prev_gallery.path }}',
+                'thumb':    '{{ prev_gallery.thumb }}'
+            },
+            'right': {
+                'id':       '{{ next_gallery.id }}',
+                'title':    '{{ next_gallery.title }}',
+                'path':     '{{ next_gallery.path }}',
+                'thumb':    '{{ next_gallery.thumb }}'
+            }
+        };
+    </script>
+
+    <div class="item-media-gallery gallery-container" data-view-type="galleryOwlCustom" data-media-id="{{ media_id }}">
+        <div class="item-media-gallery__header">
+            <div class="item-media-gallery__header__counter"></div>
+            <div class="item-media-gallery__header__thumbs">
+                <label><i class="fa fa-th" aria-hidden="true"></i> Náhledy</label>
+                <div class="thumbs_list">
+                    {% for i in this_gallery %}
+                        <a href="#imageId-{{ i.fid }}"><img src="{{ i.thumb }}"></a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="owl-gallery owl-carousel owl-theme owl-center">
+            {{ content }}
+        </div>
+        <div class="item-media-gallery__footer">
+            <div>
+                <h2>{{ name }}</h2>
+            </div>
+        </div>
+    </div>
+{% endif %}

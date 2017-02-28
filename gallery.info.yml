@@ -1,0 +1,7 @@
+name: Burda Praha Gallery
+type: module
+description: Custom Photo Gallery using Media, Paragraphs
+core: '8.x'
+dependencies:
+  - media
+  - paragraphs
