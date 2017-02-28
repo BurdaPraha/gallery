@@ -2,7 +2,7 @@
 Photo Gallery using Media for Drupal 8, Thunder. **Still in hard development!**
 
 ## Install
-- Download via `composer require burdapraha/gallery master-dev`
+- Download via `composer require burdapraha/gallery dev-master`
 - Install module `drush en gallery`
 
 Using:
