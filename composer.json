@@ -1,9 +1,9 @@
 {
   "name": "burdapraha/gallery",
   "type": "drupal-module",
-  "description": "Custom gallery",
+  "description": "Burda Praha Gallery",
   "minimum-stability": "dev",
-  "keywords": ["Drupal"],
+  "keywords": ["Drupal", "Gallery"],
   "license": "GPL-2.0+",
   "homepage": "https://github.com/BurdaPraha/gallery",
   "authors": [

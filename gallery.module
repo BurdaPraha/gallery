@@ -1,7 +1,10 @@
 <?php
 
 /**
+ * Get backlink from gallery to her article
+ *
  * @param $variables
+ * @return string - relative URL
  */
 function gallery_preprocess_page(&$variables)
 {
@@ -11,7 +14,9 @@ function gallery_preprocess_page(&$variables)
     $query = \Drupal::request()->query;
     $from = $query->get('bnid');
 
-    // default
+    /**
+     * Homepage, default backlink, fallback
+     */
     $variables['preprocess_article_backlink'] = \Drupal::url('<front>');
 
     if($from)
@@ -24,7 +29,38 @@ function gallery_preprocess_page(&$variables)
     }
     else
     {
-        // todo: find paragraph relationship for first article
+        /**
+         *  We are on gallery page?
+         */
+        $media = \Drupal::routeMatch()->getParameter('media');
+        if($media)
+        {
+            /**
+             * Find gallery used in paragraph
+             */
+            $paragraph = \Drupal::entityQuery('paragraph')
+                ->condition('field_media', $media->id())
+                ->execute();
+
+            if($paragraph)
+            {
+                /**
+                 * Find node where is paragraph used
+                 */
+                $find_node = \Drupal::entityQuery('node')
+                    ->condition('field_paragraphs', array(end($paragraph)), 'IN')
+                    ->execute();
+
+                if($find_node)
+                {
+                    $url = \Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => end($find_node)]);
+                    if($url)
+                    {
+                        $variables['preprocess_article_backlink'] = $url->toString();
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -39,5 +75,6 @@ function gallery_preprocess_paragraph(&$variables)
 
     if ($bundle == 'gallery')
     {
+        // todo
     }
 }
