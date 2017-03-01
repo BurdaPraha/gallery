@@ -9,31 +9,31 @@
 function gallery_preprocess_page(&$variables)
 {
     /**
-     * backlink from gallery to the article
+     *  We are on gallery page?
      */
-    $query = \Drupal::request()->query;
-    $from = $query->get('bnid');
-
-    /**
-     * Homepage, default backlink, fallback
-     */
-    $variables['preprocess_article_backlink'] = \Drupal::url('<front>');
-
-    if($from)
-    {
-        $url = \Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => $from]);
-        if($url)
-        {
-            $variables['preprocess_article_backlink'] = $url->toString();
-        }
-    }
-    else
+    $media = \Drupal::routeMatch()->getParameter('media');
+    if($media)
     {
         /**
-         *  We are on gallery page?
+         * Homepage, default backlink, fallback
          */
-        $media = \Drupal::routeMatch()->getParameter('media');
-        if($media)
+        $variables['preprocess_article_backlink'] = \Drupal::url('<front>');
+
+        /**
+         * backlink from gallery to the article
+         */
+        $query = \Drupal::request()->query;
+        $from = $query->get('bnid');
+
+        if($from)
+        {
+            $url = \Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => $from]);
+            if($url)
+            {
+                $variables['preprocess_article_backlink'] = $url->toString();
+            }
+        }
+        else
         {
             /**
              * Find gallery used in paragraph
