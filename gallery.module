@@ -1,5 +1,36 @@
 <?php
 
+use Drupal\Core\Url;
+
+
+/**
+ * @param $suggestions
+ * @param $vars
+ */
+function gallery_theme_suggestions_page_alter(&$suggestions, &$vars)
+{
+    $media = \Drupal::routeMatch()->getParameter('media');
+    if($media && 'gallery' == $media->bundle())
+    {
+        if(isset($_GET['tpl']) && 'ads' == $_GET['tpl'])
+        {
+            $suggestions[] = 'page__media__ads';
+        };
+    }
+}
+
+/**
+ * @param $css
+ * @param \Drupal\Core\Asset\AttachedAssetsInterface $assets
+ */
+function gallery_hook_css_alter(&$css, \Drupal\Core\Asset\AttachedAssetsInterface $assets)
+{
+    if(isset($_GET['tpl']) && 'ads' == $_GET['tpl'])
+    {
+        unset($css);
+    };
+}
+
 /**
  * Get backlink from gallery to her article
  *
@@ -12,8 +43,15 @@ function gallery_preprocess_page(&$variables)
      *  We are on gallery page?
      */
     $media = \Drupal::routeMatch()->getParameter('media');
-    if($media)
+    if($media && 'gallery' == $media->bundle())
     {
+        /**
+         * add absolute link
+         */
+        $absolute_url = \Drupal::service('path.alias_manager')->getAliasByPath('/media/' . $media->id());
+        $absolute_url = Url::fromUri('base:/' . $absolute_url, array('absolute' => TRUE));
+        $variables['absolute_url'] = $absolute_url->toString();
+
         /**
          * Homepage, default backlink, fallback
          */
@@ -63,6 +101,7 @@ function gallery_preprocess_page(&$variables)
         }
     }
 }
+
 
 /**
  * Paragraphs - Gallery item
