@@ -2,12 +2,27 @@
 
 use Drupal\Core\Url;
 
+/**
+ * @param $suggestions
+ * @param $variables
+ */
+function gallery_theme_suggestions_html_alter(&$suggestions, &$variables)
+{
+    $media = \Drupal::routeMatch()->getParameter('media');
+    if($media && 'gallery' == $media->bundle())
+    {
+        if(isset($_GET['tpl']) && 'ads' == $_GET['tpl'])
+        {
+            $suggestions[] = 'html__media__ads';
+        };
+    }
+}
 
 /**
  * @param $suggestions
- * @param $vars
+ * @param $variables
  */
-function gallery_theme_suggestions_page_alter(&$suggestions, &$vars)
+function gallery_theme_suggestions_page_alter(&$suggestions, &$variables)
 {
     $media = \Drupal::routeMatch()->getParameter('media');
     if($media && 'gallery' == $media->bundle())
@@ -17,18 +32,6 @@ function gallery_theme_suggestions_page_alter(&$suggestions, &$vars)
             $suggestions[] = 'page__media__ads';
         };
     }
-}
-
-/**
- * @param $css
- * @param \Drupal\Core\Asset\AttachedAssetsInterface $assets
- */
-function gallery_hook_css_alter(&$css, \Drupal\Core\Asset\AttachedAssetsInterface $assets)
-{
-    if(isset($_GET['tpl']) && 'ads' == $_GET['tpl'])
-    {
-        unset($css);
-    };
 }
 
 /**
