@@ -52,6 +52,8 @@ function gallery_preprocess_page(&$variables)
          * add absolute link
          */
         $absolute_url = \Drupal::service('path.alias_manager')->getAliasByPath('/media/' . $media->id());
+
+        // todo: remove https argument
         $absolute_url = Url::fromUri('base:/' . $absolute_url, array('absolute' => TRUE, 'https' => true));
         $variables['absolute_url'] = $absolute_url->toString();
 
