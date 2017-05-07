@@ -34,6 +34,11 @@ function gallery_theme_suggestions_page_alter(&$suggestions, &$variables)
     }
 }
 
+function gallery_preprocess_media(&$variables)
+{
+    //dpm($variables);
+}
+
 /**
  * Get backlink from gallery to her article
  *
@@ -52,7 +57,9 @@ function gallery_preprocess_page(&$variables)
          * add absolute link
          */
         $absolute_url = \Drupal::service('path.alias_manager')->getAliasByPath('/media/' . $media->id());
-        $absolute_url = Url::fromUri('base:/' . $absolute_url, array('absolute' => TRUE));
+
+        // todo: remove https argument
+        $absolute_url = Url::fromUri('base:/' . $absolute_url, array('absolute' => TRUE, 'https' => true));
         $variables['absolute_url'] = $absolute_url->toString();
 
         /**

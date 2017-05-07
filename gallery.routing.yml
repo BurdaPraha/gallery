@@ -1,0 +1,6 @@
+gallery:
+  path: 'gallery/{gallery_mid}'
+  defaults:
+    _controller: '\Drupal\gallery\Controller\JsonController::getNavigationData'
+  options:
+    _theme: ajax_base_page
