@@ -1,6 +1,7 @@
 <?php
 
 use Drupal\Core\Url;
+use Drupal\gallery\Navigation;
 
 /**
  * @param $suggestions
@@ -59,7 +60,7 @@ function gallery_preprocess_page(&$variables)
         $absolute_url = \Drupal::service('path.alias_manager')->getAliasByPath('/media/' . $media->id());
 
         // todo: remove https argument
-        $absolute_url = Url::fromUri('base:/' . $absolute_url, array('absolute' => TRUE, 'https' => true));
+        $absolute_url = Url::fromUri('base:/' . $absolute_url, array('absolute' => TRUE));
         $variables['absolute_url'] = $absolute_url->toString();
 
         /**
@@ -111,6 +112,9 @@ function gallery_preprocess_page(&$variables)
         }
     }
 }
+
+
+// todo: add loading gallery thumbs here with "gallery_photo_preview"
 
 
 /**

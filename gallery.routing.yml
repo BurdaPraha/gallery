@@ -1,5 +1,5 @@
 gallery:
-  path: 'gallery/{gallery_mid}'
+  path: 'bd_gallery/{mid}'
   defaults:
     _controller: '\Drupal\gallery\Controller\JsonController::getNavigationData'
   options:

@@ -8,11 +8,11 @@
 
             this.options = {
                 galleryId:      null,
-                bufferAds:      0,
-                bufferClicks:   0,
-                reloadCount:    0,
                 itemCount:      0,
                 itemCurrent:    0,
+                bufferAds:      0,
+                bufferClicks:   0,
+                daemonPause:    false,
                 lang: {
                     prev:       'Previous',
                     next:       'Next',
@@ -35,6 +35,15 @@
         },
 
 
+        setter: function(key, val) {
+
+            this.options[key] = val;
+
+            console.log(this.options[key]);
+
+        },
+
+
         /**
          * load html elements
          */
@@ -47,38 +56,39 @@
             this.galleryId  = this.slider.attr('data-gallery-id');
 
             if(0 == this.slider.length) {
-                console.warn('slider element "#' + this.options.sliderId + '" not exist!');
+                console.warn('slider element "' + this.options.sliderId + '" not exist!');
             }
             if(0 == this.thumbs.length) {
-                console.warn('thumbs element "#' + this.options.thumbsId + '" not exist!');
+                console.warn('thumbs element "' + this.options.thumbsId + '" not exist!');
             }
             if(0 == this.counter.length) {
-                console.warn('counter element "#' + this.options.counterId + '" not exist!');
+                console.warn('counter element "' + this.options.counterId + '" not exist!');
             }
             if(0 == this.sidebarAds.length && this.options.sidebarAdsId != null) {
-                console.warn('sidebar ads element "#' + this.options.sidebarAdsId + '" not exist!');
+                console.warn('sidebar ads element "' + this.options.sidebarAdsId + '" not exist!');
             }
-            if(this.galleryId) {
-                console.warn('data attribute "data-gallery-id" missing!');
+            if("" == this.galleryId) {
+                console.warn('data attribute "data-gallery-id" missing on slider element!');
             }
 
         },
 
 
         /**
-         * Get JSON data from gallery module route
+         * Get JSON data from gallery module route, todo: not used right now, right routing wip
          * @return JSON
          */
         loadArrowsData: function() {
 
             var request = new XMLHttpRequest();
-            request.open('GET', '/gallery/' + this.galleryId, true); // todo: domain?
+            request.open('GET', '/bd_gallery/' + this.galleryId, true); // todo: domain?
             request.onload = function (e) {
 
                 if (request.readyState === 4)
                 {
                     if (request.status === 200)
                     {
+                        console.log(request.responseText); // todo!
                         return request.responseText;
                     }
                     else
@@ -95,12 +105,16 @@
          * Override html of arrows
          * Data object is stored in template "media--gallery--full.html.twig"
          */
-        rewriteArrows: function ()
-        {
-            if(typeof window.galleryLayer != "undefined" && null == this.options.arrowsData)
+        rewriteArrows: function () {
+
+            if(typeof window.galleryLayer != "undefined")
             {
-                //this.options.arrowsData = window.galleryLayer;
-                this.options.arrowsData = this.loadArrowsData();
+                if(null == this.options.arrowsData) {
+
+                    this.options.arrowsData = window.galleryLayer;
+                    // this.options.arrowsData = this.loadArrowsData(); todo: not used right now
+
+                }
             }
             else
             {
@@ -113,6 +127,7 @@
 
             prev.html(this.tplArrow('prev'));
             next.html(this.tplArrow('next'));
+
         },
 
 
@@ -163,8 +178,10 @@
         tplArrow: function (way) {
 
             return '' +
-                '<div class="wrap">' + ('next' == way ? this.tplGallery('next') : '') +
-                '<div class="wrap__way"><i class="fa fa-angle-'+way+'" aria-hidden="true"></i></div>' + ('prev' == way ? this.tplGallery('prev') : '') +
+                '<div class="wrap">' +
+                ('next' == way ? this.tplGallery('next') : '') +
+                '<div class="wrap__way"><i class="fa fa-angle-' + ('next' == way ? 'right' : 'left') + '" aria-hidden="true"></i></div>' +
+                ('prev' == way ? this.tplGallery('prev') : '') +
                 '</div>';
 
         },
@@ -174,8 +191,8 @@
          * Refresh counter data and replace html
          * @param event
          */
-        rewriteCounter: function (event)
-        {
+        rewriteCounter: function (event) {
+
             if(event)
             {
                 this.options.itemCount   = event.item.count;
@@ -183,6 +200,7 @@
             }
 
             this.counter.html(this.options.itemCurrent + " / " + this.options.itemCount);
+
         },
 
 
@@ -190,8 +208,8 @@
          * Thumbnails list
          * @param close
          */
-        clickOnThumb: function(close)
-        {
+        clickOnThumb: function(close) {
+
             if(this.thumbs.hasClass('active') || true == close)
             {
                 this.slider.removeClass('go-hidden');
@@ -202,59 +220,79 @@
                 this.slider.addClass('go-hidden');
                 this.thumbs.addClass('active');
             }
+
         },
 
 
         /**
          * Reload ads around gallery
          */
-        reloadAds: function ()
-        {
-            BD_Gallery.bufferClicks++;
-            console.log("Reloaduji reklamu");
+        reloadAdsDaemon: function () {
 
-            // do it
-            this.sidebarAds.src = this.sidebarAds.src + '&u' + Date.now();
-        },
+            //console.log("buffer: " + this.options.bufferAds);
+            //console.log("pauza obnovovani: " + this.options.daemonPause);
 
+            // adding new frame
+            if(this.options.bufferAds > 0) {
 
-        /**
-         * Reload ads around gallery, todo: !!!!!!!!!!!!
-         */
-        daemonReloadAds: function ()
-        {
-            console.log("funkce zavolana");
-            console.log("daemon zavolan");
+                console.log("vytvarim novy iframe ....");
 
-            if(BD_Gallery.bufferAds > 0 && bufferPause == false)
+                var frameUrl = this.sidebarAds.attr("data-frame-url") + '&u=' + Date.now();
+                var frameTpl = '' +
+                    '<iframe ' +
+                    'data-frame-time="' + Date.now() + '" ' +
+                    'data-frame-showed="false" ' +
+                    'id="u-' + Date.now() + '" ' +
+                    'src="' + frameUrl + '" ' +
+                    'style="display: none; width: 300px; height: 123px;" ' +
+                    'frameborder="0" ' +
+                    'scrolling="no">' +
+                    '</iframe>';
+
+                // create new frame
+                $(frameTpl).appendTo(this.sidebarAds);
+
+                // remove from buffer
+                this.options.bufferAds--;
+            }
+
+            // get count of iframes
+            var childsCount = this.sidebarAds.children().length;
+
+            // if alone in wrapper
+            if(childsCount > 1)
             {
-                bufferPause = true;
+                this.sidebarAds.children('iframe').each(function (key, value) {
 
-                console.log("buffer:" + BD_Gallery.bufferAds);
+                    var childElement = $(value);
+                    var childOrder   = key + 1;
 
-                adFrame.src = adFrame.getAttribute('data-default-src') + '&frameId=' + Date.now();
+                    // if isn't the last one
+                    //if(childsCount != childOrder)
+                    //{
+                    var childTime   = childElement.attr('data-frame-time');
+                    var difference  = (new Date() - childTime) / 1000;
+                    var wasShow     = childElement.attr('data-frame-showed');
+                    var wasLoaded   = 123 != childElement.height();
 
-                adFrame.addEventListener("load", function() {
+                    // if is older than 2 seconds
+                    if(difference >= 2 && true == wasLoaded) // "false" == wasShow
+                    {
+                        // hide all
+                        childElement.parent().children().hide();
 
-                    BD_Gallery.bufferAds--;
-                    BD_Gallery.reloadCount++;
-                    bufferPause = false;
-                    alert("ad");
+                        // show our iframe
+                        childElement.show();
+                        childElement.attr('data-frame-showed', true)
+                    }
+                    //}
 
                 });
-
-
-                console.log("its done!");
-            }
-            else
-            {
-                console.log("buffer 0")
             }
 
-            console.log("pauza je: " + bufferPause);
-            console.log("-- Stav je: " + BD_Gallery.reloadCount + " obnovení z " + BD_Gallery.bufferClicks + " kliků, buffer: " + BD_Gallery.bufferAds + " --");
+            console.log("--- Stav je: " + this.options.bufferClicks + " kliků, v bufferu: " + this.options.bufferAds + " bufferu, iframů: " + childsCount + "  ---");
+
         },
-
 
         /**
          * Create owl Carousel with event listeners
@@ -268,12 +306,13 @@
              */
             this.slider.on('initialized.owl.carousel', function(event) {
 
-                console.log(event);
-
+                // create counter
                 than.rewriteCounter(event);
-                than.rewriteArrows();
 
-                //window.setInterval(daemonReloadAds, 1000);
+
+                // init daemon
+                setInterval(than.reloadAdsDaemon.bind(than), 1000);
+
 
             });
 
@@ -284,7 +323,7 @@
             this.slider.owlCarousel({
                 items:              1,
                 nav:                true,
-                //navText:            [than.tplArrow('left'), than.tplArrow('next')],
+                navText:            [than.tplArrow('prev'), than.tplArrow('next')],
                 autoHeight:         false,
                 URLhashListener:    true,
                 startPosition:      'URLHash',
@@ -304,7 +343,10 @@
                 than.rewriteCounter(event);
                 than.rewriteArrows();
                 than.clickOnThumb(true);
-                than.reloadAds();
+
+                // setup for ads
+                than.options.bufferClicks++;
+                than.options.bufferAds++;
 
             });
 
@@ -314,19 +356,14 @@
              */
             this.slider.on('next.owl.carousel prev.owl.carousel to.owl.carousel dragged.owl.carousel', function(event) {
 
-                than.options.bufferClicks++;
-                than.options.bufferAds++;
-
-                than.rewriteArrows(event);
-
-                console.info("calling...");
+                // todo: this event not working, check it for future drag events
 
             });
 
             /**
-             * Thumbs activate
+             * Thumbs activate view listener
              */
-            this.thumbs.on('click', function() {
+            this.thumbs.find('label').on('click', function() {
 
                 return than.clickOnThumb();
 

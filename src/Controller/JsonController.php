@@ -45,8 +45,7 @@ class JsonController implements ContainerInjectionInterface {
      */
     public function getNavigationData(Request $request) {
 
-
-        $id = Unicode::strtolower($request->query->get('q'));
+        $id = Unicode::strtolower($request->query->get('mid'));
 
         $prev = $this->navigation->loadGalleryPrev($id);
         $next = $this->navigation->loadGalleryNext($id);
