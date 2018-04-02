@@ -1,16 +1,39 @@
 <?php
 
 use Drupal\Core\Url;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\Core\File;
+use Drupal\media_entity\MediaInterface;
 use Drupal\gallery\Navigation;
 
 
 /**
- * gallery embed as paragraph in article
+ * @param MediaInterface $media_entity
+ * @return string|null
+ */
+function mediaFileUrl(MediaInterface $media_entity)
+{
+    $source_field = $media_entity->getType()->getConfiguration()['source_field'];
+
+    if ($media_entity->hasField($source_field))
+    {
+        $file_entities = $media_entity->get($source_field)->referencedEntities();
+        if (!empty($file_entities)) {
+            return $file_entities[0]->getFileUri();
+        }
+    }
+
+    return null;
+}
+
+
+/**
  * todo: add loading gallery thumbs here with "gallery_photo_preview"
  * @param $variables
  */
 function gallery_preprocess_media(&$variables)
 {
+    // gallery embed as paragraph in article
     if(
         isset($variables['content']['name']) &&
         'burda_gallery_in_paragraphs' == $variables['content']['name']['#view_mode'])
@@ -21,7 +44,42 @@ function gallery_preprocess_media(&$variables)
 
         $variables['gallery_url'] = $absolute_url->toString();
     }
+
+    // gallery detail page
+    if(
+        isset($variables['content']['field_media_images']) &&
+        'full' === $variables['elements']['#view_mode']
+    )
+    {
+        $formatter = $variables['content']['field_media_images']['#formatter'];
+        if('entity_reference_entity_view' !== $formatter || 'media_thumbnail' !== $formatter) {
+            new Exception('Gallery field Media Images must be in format Thumbnail or Render Entity! Fix it: /admin/structure/media/manage/gallery/display');
+        }
+
+        $thumbs = [];
+        foreach($variables['content']['field_media_images'] as $key => $values)
+        {
+            if('#' !== substr($key, 0, 1))
+            {
+                if('image_formatter' === $values['#theme']) {
+                    $media  = $values['#item']->getEntity();
+                }
+
+                if('media' === $values['#theme']){
+                    $media  = $values['#media'];
+                }
+
+                $thumbs[] = [
+                    'mid'   => $media->id(),
+                    'thumb' => ImageStyle::load('gallery_thumbnail_on_detail')->buildUrl(mediaFileUrl($media))
+                ];
+            };
+        }
+
+        $variables['gallery_thumbs'] = $thumbs;
+    }
 }
+
 
 /**
  * Get backlink from gallery to her article

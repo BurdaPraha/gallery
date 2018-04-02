@@ -15,12 +15,8 @@
 {% if content %}
     {% set prev_gallery = load_gallery_prev(media_id) %}
     {% set next_gallery = load_gallery_next(media_id) %}
-    {% set this_gallery = load_gallery_thumbs(media_id, 'gallery_photo_preview') %}
 
     <script>
-        dataLayer.push({
-            'pageCategory': 'Gallery'
-        });
         var galleryLayer = {
             'left': {
                 'id':       '{{ prev_gallery.id }}',
@@ -43,8 +39,8 @@
             <div class="item-media-gallery__header__thumbs">
                 <label><i class="fa fa-th" aria-hidden="true"></i> Náhledy</label>
                 <div class="thumbs_list">
-                    {% for i in this_gallery %}
-                        <a href="#imageId-{{ i.fid }}"><img src="{{ i.thumb }}"></a>
+                    {% for i in gallery_thumbs %}
+                        <a href="#imageId-{{ i.mid }}"><img src="{{ i.thumb }}"></a>
                     {% endfor %}
                 </div>
             </div>
