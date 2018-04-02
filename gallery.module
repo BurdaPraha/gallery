@@ -85,7 +85,6 @@ function gallery_preprocess_media(&$variables)
  * Get backlink from gallery to her article
  *
  * @param $variables
- * @return string - relative URL
  */
 function gallery_preprocess_page(&$variables)
 {
@@ -105,7 +104,7 @@ function gallery_preprocess_page(&$variables)
         /**
          * Homepage, default backlink, fallback
          */
-        $variables['preprocess_article_backlink'] = \Drupal::url('<front>');
+        $variables['gallery_article_backlink'] = \Drupal::url('<front>');
 
         /**
          * backlink from gallery to the article
@@ -118,7 +117,7 @@ function gallery_preprocess_page(&$variables)
             $url = \Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => $from]);
             if($url)
             {
-                $variables['preprocess_article_backlink'] = $url->toString();
+                $variables['gallery_article_backlink'] = $url->toString();
             }
         }
         else
@@ -144,7 +143,7 @@ function gallery_preprocess_page(&$variables)
                     $url = \Drupal\Core\Url::fromRoute('entity.node.canonical', ['node' => end($find_node)]);
                     if($url)
                     {
-                        $variables['preprocess_article_backlink'] = $url->toString();
+                        $variables['gallery_article_backlink'] = $url->toString();
                     }
                 }
             }
