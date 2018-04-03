@@ -22,13 +22,13 @@
             <h2><a href="{{ gallery_url }}">{{ name }}</a></h2>
         </div>
 
-        <div class="row no-gutters is-flex item-media-gallery__list">
+        <div class="row no-gutters item-media-gallery__list">
             {% for key, item in content.field_media_images if key|first != '#' %}
 
                 {% set gallery_num = gallery_num + 1 %}
                 {% if gallery_num <= gallery_limit %}
-                    <div class="col-sm-6 col-md-3">
-                        <a href="{{ gallery_url }}#imageId-{{ item['#cache']['tags'][0] | slice(6) }}">
+                    <div class="col-xs-6 col-sm-6 col-md-3">
+                        <a href="{{ gallery_url }}#imageId-{{ item['#media'].id }}">
                             {{ item }}
                         </a>
                     </div>
@@ -36,14 +36,12 @@
 
             {% endfor %}
 
-            <div class="col-sm-6 col-md-3">
+            <div class="col-xs-6 col-sm-6 col-md-3">
                 <div class="item-media-gallery__more">
                     <a href="{{ gallery_url }}">
-                        <span class="row no-gutters is-flex">
+                        <span class="row no-gutters">
                             <span class="col-md-10">
-                                <span class="item-media-gallery__more__gallery">
-                                    {{ svg("/icons/gallery.svg") }}
-                                </span>
+                                <span class="item-media-gallery__more__gallery"><!-- todo: svg --></span>
                                 <strong class="item-media-gallery__more__go-to">{% trans %}Přejít do galerie{% endtrans %}</strong>
                                 <span class="item-media-gallery__more__num-of">({{ gallery_num }} {% trans %}fotografií{% endtrans %})</span>
                             </span>

@@ -45,9 +45,9 @@
                 </div>
             </div>
         </div>
-        <div class="owl-gallery owl-carousel owl-theme owl-center">
-            {{ content }}
-        </div>
+
+        {% include '@gallery/embed/swiper.html.twig' with {'rows' : content.field_media_images } %}
+
         <div class="item-media-gallery__footer">
             <div>
                 <h2>{{ name }}</h2>

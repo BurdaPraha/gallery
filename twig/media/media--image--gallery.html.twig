@@ -15,7 +15,7 @@
 {% if content %}
     <div class="item-media-gallery__item" data-hash="imageId-{{ content.field_image.0['#item'].getValue['target_id'] }}">
         <div class="item-media item-media-image {{ calculated_dimension }}">
-            {% include '@infinite/media/media--image-base.html.twig' %}
+            {% include '@gallery/media/media--image-base.html.twig' %}
         </div>
     </div>
 {% endif %}

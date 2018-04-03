@@ -1,0 +1,14 @@
+{% block swiper %}
+
+    <div{{ attributes.addClass(classes) }}>
+
+        <div class="swiper-wrapper">
+            {{ rows }}
+        </div>
+
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"><span></span></div>
+        <div class="swiper-button-next"><span></span></div>
+
+    </div>
+{% endblock %}
