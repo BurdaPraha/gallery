@@ -82,6 +82,20 @@ function gallery_preprocess_media(&$variables)
 
 
 /**
+ * Add special layout template support for gallery detail
+ * @param $suggestions
+ * @param $variables
+ */
+function gallery_theme_suggestions_page_alter(&$suggestions, &$variables)
+{
+    $media = \Drupal::routeMatch()->getParameter('media');
+    if($media && 'gallery' == $media->bundle()) {
+        $suggestions[] = 'page__media__gallery';
+    }
+}
+
+
+/**
  * Add special carousel template for gallery item on detail page
  * @param $suggestions
  * @param $variables
