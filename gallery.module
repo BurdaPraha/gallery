@@ -82,6 +82,25 @@ function gallery_preprocess_media(&$variables)
 
 
 /**
+ * Add special carousel template for gallery item on detail page
+ * @param $suggestions
+ * @param $variables
+ */
+function gallery_theme_suggestions_media_alter(&$suggestions, &$variables)
+{
+    $media = \Drupal::routeMatch()->getParameter('media');
+    if($media && 'gallery' == $media->bundle())
+    {
+        // yeah we have item of field_media_images
+        if(array_key_exists('media__image', array_flip($suggestions))){
+            $suggestions[] = 'media__image__gallery';
+            $suggestions[] = 'media__image__gallery__custom'; // @todo: test overriding by theme
+        }
+    }
+}
+
+
+/**
  * Get backlink from gallery to her article
  *
  * @param $variables
