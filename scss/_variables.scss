@@ -1,13 +1,13 @@
 // base variables
-$gallery_brand_font-color:    #eb1f40;
-$gallery_brand_font-family:   "Cambay";
+$gallery_brand_font-color:    #eb1f40 !default;
+$gallery_brand_font-family:   "Cambay" !default;
 
 // pargraph embed
-$gallery_h2_font-family:      $gallery_brand_font-family;
-$gallery_goTo_font-color:     $gallery_brand_font-color;
-$gallery_goTo_font-family:    $gallery_brand_font-family;
-$gallery_numOf_font-family:   $gallery_brand_font-family;
-$gallery_goTo_fonts-size:     11px;
+$gallery_h2_font-family:      $gallery_brand_font-family !default;
+$gallery_goTo_font-color:     $gallery_brand_font-color !default;
+$gallery_goTo_font-family:    $gallery_brand_font-family !default;
+$gallery_numOf_font-family:   $gallery_brand_font-family !default;
+$gallery_goTo_fonts-size:     11px !default;
 
 // detail page
-$gallery_counter_font-family: $gallery_brand_font-family;
+$gallery_counter_font-family: $gallery_brand_font-family !default;;
