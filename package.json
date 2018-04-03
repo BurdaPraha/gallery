@@ -1,6 +1,6 @@
 {
   "name": "gallery",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Custom Photo Gallery",
   "license": "MIT",
   "scripts": {
@@ -11,9 +11,10 @@
     "url": "git://github.com/BurdaPraha/gallery.git"
   },
   "dependencies": {
-    "bower": "1.8.0",
+    "swiper": "^4.1.0"
+  },
+  "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-bower": "0.0.13",
     "gulp-concat": "~2.6.0",
     "gulp-concat-css": "~2.2.0",
     "gulp-load-plugins": "^1.1.0",
@@ -21,5 +22,11 @@
     "gulp-sequence": "^0.4.6",
     "gulp-sourcemaps": "~1.6.0",
     "gulp-autoprefixer": "^3.1.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/BurdaPraha/gallery/issues"
+  },
+  "homepage": "https://github.com/BurdaPraha/gallery#readme",
+  "main": "gulpfile.js",
+  "author": "Michal Landsman <landsman@studioart.cz>"
 }
