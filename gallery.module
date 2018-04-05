@@ -2,29 +2,9 @@
 
 use Drupal\Core\Url;
 use Drupal\image\Entity\ImageStyle;
-use Drupal\Core\File;
-use Drupal\media_entity\MediaInterface;
+
 use Drupal\gallery\Navigation;
-
-
-/**
- * @param MediaInterface $media_entity
- * @return string|null
- */
-function mediaFileUrl(MediaInterface $media_entity)
-{
-    $source_field = $media_entity->getType()->getConfiguration()['source_field'];
-
-    if ($media_entity->hasField($source_field))
-    {
-        $file_entities = $media_entity->get($source_field)->referencedEntities();
-        if (!empty($file_entities)) {
-            return $file_entities[0]->getFileUri();
-        }
-    }
-
-    return null;
-}
+use Drupal\gallery\Gallery;
 
 
 /**
@@ -71,12 +51,19 @@ function gallery_preprocess_media(&$variables)
 
                 $thumbs[] = [
                     'mid'   => $media->id(),
-                    'thumb' => ImageStyle::load('gallery_thumbnail_on_detail')->buildUrl(mediaFileUrl($media))
+                    'thumb' => ImageStyle::load('gallery_thumbnail_on_detail')->buildUrl(Gallery::mediaFileUrl($media))
                 ];
             };
         }
-
         $variables['gallery_thumbs'] = $thumbs;
+
+
+        //
+        // cross-gallery pagination
+        //
+        $gallery = \Drupal::routeMatch()->getParameter('media');
+        $variables['gallery_prev'] = Gallery::loadNext($gallery->id());
+        $variables['gallery_next'] = Gallery::loadPrev($gallery->id());
     }
 }
 
