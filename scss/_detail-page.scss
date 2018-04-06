@@ -2,6 +2,7 @@
 // Gallery detail page
 //
 .item-media-gallery {
+  position: relative;
 
   &__header {
     position: relative;
@@ -21,30 +22,26 @@
       width: 100%;
       position: relative;
       z-index: 5;
-      margin-top: -42px;
       float: right;
       text-align: right;
 
-      label {
+      button {
         padding: 5px 10px 3px 10px;
+        border: 1px solid #3b3b3c;
+        background-color: #ffffff;
         color: #7e7e7e;
-        font-family: $gallery_brand_font-family;
-        font-size: 14px;
-        font-weight: 700;
-        line-height: 20px;
         text-transform: uppercase;
         cursor: pointer;
-        border: 1px solid transparent;
-
-        &:hover {
-          border-color: #dddddd; // @todo: to var
-          color: #000;
-        }
       }
 
       .thumbs_list {
-        display: none;
-        position: absolute;
+        //display: none;
+        height: 0;
+        padding: 0;
+        display: block;
+        position: relative;
+        overflow: hidden;
+        transition: all .1s linear;
       }
 
       &.active {
@@ -52,9 +49,9 @@
         background: #fff;
 
         .thumbs_list {
-          display: block;
-          position: absolute;
-          top: 48px;
+          height: auto;
+          padding: auto;
+          top: 0;
           left: 0;
           z-index: 100;
           text-align: left;
@@ -65,199 +62,192 @@
 
   }
 
-  .owl-gallery {
-    width: 540px;
+  .swiper-container-horizontal {
+    width: 100%;
     margin: 0 auto;
     position: relative;
+    overflow: hidden;
+  }
+
+  .swiper-wrapper {
+    max-width: 100%;
+    //width: 540px;
+    //margin: 0 auto;
+    position: relative;
+    overflow: hidden;
 
     // if thumbs are active
     &.go-hidden {
       z-index: -100;
     }
 
-    .owl-stage-outer {
+    .swiper-button-prev, .swiper-button-next {
+      position: absolute;
+      top: 150px;
+      margin: 0;
     }
 
-    .owl-nav {
+    //
+    // Arrow left
+    //
+    .swiper-button-prev {
+      left: -45px;
 
-      .owl-prev, .owl-next {
-        position: absolute;
-        top: 150px;
-        margin: 0;
-      }
-
-      //
-      // Arrow left
-      //
-      .owl-prev {
-        left: -45px;
-
-        .wrap {
-
-          &__way  {
-            margin-right: -37px;
-          }
-
-          &__gallery {
-            a {
-              padding-left: 50px;
-            }
-          }
-
-        }
-
-      }
-
-      //
-      // Arrow right
-      //
-      .owl-next {
-        right: -45px;
-
-        .wrap {
-
-          &__way {
-            margin-left: -37px;
-          }
-
-          &__gallery {
-            a {
-              padding-right: 50px;
-            }
-          }
-
-        }
-      }
-
-      //
-      // Template from Javascript "gallery-custom.js"
-      //
       .wrap {
-        height: 88px;
-        background: #fff;
 
-        &> div {
-          position: relative;
-          display: inline-block;
-          vertical-align: top;
-        }
-
-        // hover improved change color over <a>
-        &:hover {
-
-          .wrap__way {
-            border-color: $gallery_brand_font-color;
-            color: $gallery_brand_font-color;
-          }
-
-        }
-
-        &__way {
-          z-index: 1;
-          width: 37px;
-          height: auto;
-          padding: 23px 0;
-          font-size: 40px; // font-awesome
-          color: #bcbcbc; // @todo: make variable
-          border: 1px solid #dddddd;
-          text-align: center;
+        &__way  {
+          margin-right: -37px;
         }
 
         &__gallery {
-          width: 0;
-          overflow: hidden;
-          z-index: 5;
-          //box-shadow: 0 0 2px rgba(0, 0, 0, 0.3); @todo: bad looking
-
           a {
-            width: 100%;
-            height: 100%;
-            padding: 10px;
-            display: block;
-            color: #000000;
-
-            &> span {
-              display: inline-block;
-            }
-
+            padding-left: 50px;
           }
-
-          &__img {
-            padding-right: 15px;
-            max-height: 65px;
-            overflow: hidden
-          }
-
-          &__txt {
-            padding-right: 15px;
-            text-align: left;
-            vertical-align: top;
-
-            &> * {
-              display: block;
-            }
-
-            .txt-label {
-              color: #000000;
-              font-family: $gallery_brand_font-family;
-              font-size: 14px;
-              font-weight: 700;
-              line-height: 23px;
-              text-transform: uppercase;
-            }
-
-            .txt-headline {
-              color: #3f3f3f;
-              font-family: $gallery_brand_font-family;
-              font-size: 14px;
-              font-weight: 400;
-              line-height: 16px;
-            }
-
-          }
-
         }
 
       }
 
-      &> div {
-        padding: 0;
-      }
+    }
 
-      .disabled {
-        opacity: 1;
-      }
+    //
+    // Arrow right
+    //
+    .swiper-button-next {
+      right: -45px;
 
-      // mouse hover over disabled arrow
-      .owl-prev, .owl-next {
+      .wrap {
 
-        &:hover {
-          .wrap__gallery {
-            width: auto !important;
+        &__way {
+          margin-left: -37px;
+        }
+
+        &__gallery {
+          a {
+            padding-right: 50px;
           }
         }
 
       }
     }
 
-  }
+    //
+    // Template from Javascript "gallery-custom.js"
+    //
+    .wrap {
+      height: 88px;
+      background: #fff;
 
-  &__footer {
+      &> div {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      // hover improved change color over <a>
+      &:hover {
+
+        .wrap__way {
+          border-color: $gallery_brand_font-color;
+          color: $gallery_brand_font-color;
+        }
+
+      }
+
+      &__way {
+        z-index: 1;
+        width: 37px;
+        height: auto;
+        padding: 23px 0;
+        font-size: 40px; // font-awesome
+        color: #bcbcbc; // @todo: make variable
+        border: 1px solid #dddddd;
+        text-align: center;
+      }
+
+      &__gallery {
+        width: 0;
+        overflow: hidden;
+        z-index: 5;
+        //box-shadow: 0 0 2px rgba(0, 0, 0, 0.3); @todo: bad looking
+
+        a {
+          width: 100%;
+          height: 100%;
+          padding: 10px;
+          display: block;
+          color: #000000;
+
+          &> span {
+            display: inline-block;
+          }
+
+        }
+
+        &__img {
+          padding-right: 15px;
+          max-height: 65px;
+          overflow: hidden
+        }
+
+        &__txt {
+          padding-right: 15px;
+          text-align: left;
+          vertical-align: top;
+
+          &> * {
+            display: block;
+          }
+
+          .txt-label {
+            color: #000000;
+            font-family: $gallery_brand_font-family;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 23px;
+            text-transform: uppercase;
+          }
+
+          .txt-headline {
+            color: #3f3f3f;
+            font-family: $gallery_brand_font-family;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 16px;
+          }
+
+        }
+
+      }
+
+    }
+
+    &> div {
+      padding: 0;
+    }
+
+    .disabled {
+      opacity: 1;
+    }
+
+    // yeah, there are it again, but for mouse hover over disabled arrow, as override
+    .swiper-button-prev, .swiper-button-next {
+
+      &:hover {
+        .wrap__gallery {
+          width: auto !important;
+        }
+      }
+
+    }
 
   }
 
   .item-media-image {
-
     .img-container {
-
       &> * {
-
         height: auto;
-
       }
-
     }
-
   }
 
   .text-description {
