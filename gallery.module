@@ -60,6 +60,7 @@ function gallery_preprocess_page(&$variables)
         $absolute_url = \Drupal::service('path.alias_manager')->getAliasByPath('/media/' . $media->id());
         $absolute_url = Url::fromUri('base:/' . $absolute_url, array('absolute' => TRUE));
         $variables['absolute_url'] = $absolute_url->toString();
+        $variables['#cache']['max-age'] = 0;
 
         /**
          * Homepage, default backlink, fallback

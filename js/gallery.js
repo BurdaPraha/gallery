@@ -39,7 +39,7 @@
 
             this.options[key] = val;
 
-            console.log(this.options[key]);
+            //console.log(this.options[key]);
 
         },
 
@@ -56,19 +56,19 @@
             this.galleryId  = this.slider.attr('data-gallery-id');
 
             if(0 == this.slider.length) {
-                console.warn('slider element "' + this.options.sliderId + '" not exist!');
+                //console.warn('slider element "' + this.options.sliderId + '" not exist!');
             }
             if(0 == this.thumbs.length) {
-                console.warn('thumbs element "' + this.options.thumbsId + '" not exist!');
+                //console.warn('thumbs element "' + this.options.thumbsId + '" not exist!');
             }
             if(0 == this.counter.length) {
-                console.warn('counter element "' + this.options.counterId + '" not exist!');
+                //console.warn('counter element "' + this.options.counterId + '" not exist!');
             }
             if(0 == this.sidebarAds.length && this.options.sidebarAdsId != null) {
-                console.warn('sidebar ads element "' + this.options.sidebarAdsId + '" not exist!');
+                //console.warn('sidebar ads element "' + this.options.sidebarAdsId + '" not exist!');
             }
             if("" == this.galleryId) {
-                console.warn('data attribute "data-gallery-id" missing on slider element!');
+                //console.warn('data attribute "data-gallery-id" missing on slider element!');
             }
 
         },
@@ -88,12 +88,12 @@
                 {
                     if (request.status === 200)
                     {
-                        console.log(request.responseText); // todo!
+                        //console.log(request.responseText); // todo!
                         return request.responseText;
                     }
                     else
                     {
-                        console.error(request.statusText);
+                        //console.error(request.statusText);
                     }
                 }
             };
@@ -118,7 +118,7 @@
             }
             else
             {
-                console.warn("variable 'window.galleryLayer' object not found!");
+                //console.warn("variable 'window.galleryLayer' object not found!");
             }
 
             var nav  = this.slider.find('.owl-nav');
@@ -235,7 +235,7 @@
             // adding new frame
             if(this.options.bufferAds > 0) {
 
-                console.log("vytvarim novy iframe ....");
+                //console.log("vytvarim novy iframe ....");
 
                 var frameUrl = this.sidebarAds.attr("data-frame-url") + '&u=' + Date.now();
                 var frameTpl = '' +
@@ -290,7 +290,7 @@
                 });
             }
 
-            console.log("--- Stav je: " + this.options.bufferClicks + " kliků, v bufferu: " + this.options.bufferAds + " bufferu, iframů: " + childsCount + "  ---");
+            //console.log("--- Stav je: " + this.options.bufferClicks + " kliků, v bufferu: " + this.options.bufferAds + " bufferu, iframů: " + childsCount + "  ---");
 
         },
 
