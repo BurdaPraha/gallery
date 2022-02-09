@@ -2,7 +2,7 @@
 
 namespace Drupal\gallery;
 
-use Drupal\media_entity\MediaInterface;
+use Drupal\media\MediaInterface;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\Core\File;
 
@@ -15,7 +15,8 @@ class Gallery
      */
     public static function mediaFileUrl(MediaInterface $media_entity)
     {
-        $source_field = $media_entity->getType()->getConfiguration()['source_field'];
+        
+        $source_field = $media_entity->getEntityType()->getSource();
 
         if ($media_entity->hasField($source_field))
         {
@@ -25,7 +26,8 @@ class Gallery
             }
         }
 
-        return null;
+        return null; 
+        
     }
 
 

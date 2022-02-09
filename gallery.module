@@ -19,7 +19,7 @@ function gallery_preprocess_media(&$variables)
         'burda_gallery_in_paragraphs' == $variables['content']['name']['#view_mode'])
     {
         $gallery_id     = $variables['content']['name']['#object']->id();
-        $relative_url   = \Drupal::service('path.alias_manager')->getAliasByPath('/media/' . $gallery_id);
+        $relative_url   = \Drupal::service('path_alias.manager')->getAliasByPath('/media/' . $gallery_id);
         $absolute_url   = Url::fromUri('base:/' . $relative_url, array('absolute' => TRUE));
 
         $variables['gallery_url'] = $absolute_url->toString();
@@ -117,14 +117,14 @@ function gallery_preprocess_page(&$variables)
         /**
          * add absolute link
          */
-        $absolute_url = \Drupal::service('path.alias_manager')->getAliasByPath('/media/' . $media->id());
+        $absolute_url = \Drupal::service('path_alias.manager')->getAliasByPath('/media/' . $media->id());
         $absolute_url = Url::fromUri('base:/' . $absolute_url, array('absolute' => TRUE));
         $variables['absolute_url'] = $absolute_url->toString();
 
         /**
          * Homepage, default backlink, fallback
          */
-        $variables['gallery_article_backlink'] = \Drupal::url('<front>');
+        $variables['gallery_article_backlink'] = \Drupal\Core\Url::fromRoute('<front>');
 
         /**
          * backlink from gallery to the article

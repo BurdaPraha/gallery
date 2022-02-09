@@ -45,7 +45,7 @@ class Navigation {
     public function getMediaData($currentId, $dateComparator, $sortOrder, $thumbnail)
     {
         /**
-         * @var \Drupal\media_entity\Entity\Media
+         * @var \Drupal\media\Entity\Media
          */
         $current = $this->entityTypeManager
             ->getStorage('media')
